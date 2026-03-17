@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Search } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
+import api from '../api';
 
 const Market = () => {
   const [search, setSearch] = useState('');
@@ -13,7 +13,7 @@ const Market = () => {
     const fetchMarketOverview = async () => {
       try {
         const topSymbols = 'AAPL,MSFT,NVDA,AMZN,META,GOOGL,TSLA,BRK-B,LLY,V,JPM,WMT,MA,PG,TSM,ASML,NVO,NSRGY,TM,SHEL,AZN,BABA,TCEHY,NVS,PDD';
-        const response = await axios.get(`/api/quotes?symbols=${topSymbols}`);
+        const response = await api.get(`/api/quotes?symbols=${topSymbols}`);
         
         const data = response.data;
 

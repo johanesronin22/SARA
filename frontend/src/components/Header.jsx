@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Activity, Search, User, LogOut } from 'lucide-react';
+import api from '../api';
 
 const Header = () => {
   const location = useLocation();
@@ -35,10 +36,9 @@ const Header = () => {
     }
     const timer = setTimeout(() => {
       setIsSearching(true);
-      fetch(`/api/search?q=${searchQuery}`)
-        .then(res => res.json())
-        .then(data => {
-            setSearchResults(data);
+      api.get(`/api/search?q=${searchQuery}`)
+        .then(res => {
+            setSearchResults(res.data);
             setIsSearching(false);
         })
         .catch(() => setIsSearching(false));

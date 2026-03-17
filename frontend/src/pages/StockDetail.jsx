@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Activity, ShieldAlert, TrendingUp, ArrowLeft, Star } from 'lucide-react';
-import axios from 'axios';
+import api from '../api';
 import { AreaChart, Area, XAxis, YAxis, Tooltip, CartesianGrid } from 'recharts';
 
 // Generate instant local mock data to show chart immediately
@@ -57,9 +57,9 @@ const StockDetail = () => {
     const fetchData = async () => {
       try {
         const [quoteRes, historyRes, companyRes] = await Promise.all([
-          axios.get(`/api/quotes?symbols=${id}`),
-          axios.get(`/api/history/${id}`),
-          axios.get(`/api/company/${id}`)
+          api.get(`/api/quotes?symbols=${id}`),
+          api.get(`/api/history/${id}`),
+          api.get(`/api/company/${id}`)
         ]);
 
         if (quoteRes.data && quoteRes.data.length > 0) {
@@ -110,7 +110,7 @@ const StockDetail = () => {
     // Fetch AI reasoning
     setAiReasoning('Gemini AI is analyzing market conditions...');
     setAiArticles([]);
-    axios.post('/api/predict', {
+    api.post('/api/predict', {
       symbol: id,
       timeframe: aiProjection,
       currentPrice: stockData?.regularMarketPrice || lastPrice,

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { CheckCircle, Mail, Lock, User, ArrowRight, Loader2, AlertCircle } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { supabase } from '../supabase';
+import api from '../api';
 
 const Login = () => {
   const [step, setStep] = useState('initial'); // initial, signing-in, success
@@ -28,25 +28,22 @@ const Login = () => {
     try {
         let userData = null;
         if (authMode === 'signup') {
-            const { data, error: signupError } = await supabase.auth.signUp({
-                email: formData.email,
-                password: formData.password,
-                options: {
-                    data: { full_name: formData.name }
-                }
-            });
-            if (signupError) throw signupError;
-            userData = { email: data.user.email, name: formData.name };
-        } else {
-            const { data, error: loginError } = await supabase.auth.signInWithPassword({
+            const res = await api.post('/api/auth/signup', {
+                name: formData.name,
                 email: formData.email,
                 password: formData.password
             });
-            if (loginError) throw loginError;
-            userData = { email: data.user.email, name: data.user.user_metadata?.full_name || data.user.email };
+            if (!res.data.success) throw new Error(res.data.error || 'Signup failed');
+            userData = { email: formData.email, name: formData.name };
+        } else {
+            const res = await api.post('/api/auth/login', {
+                email: formData.email,
+                password: formData.password
+            });
+            if (!res.data.success) throw new Error(res.data.error || 'Login failed');
+            userData = res.data.user;
         }
         
-        // Skip 2FA and go to success
         setTimeout(() => {
             setStep('success');
             localStorage.setItem('sara_user', JSON.stringify(userData));
@@ -54,7 +51,7 @@ const Login = () => {
         }, 1200);
         
     } catch (err) {
-        setError(err.message || 'Authentication failed. Please try again.');
+        setError(err.response?.data?.error || err.message || 'Authentication failed. Please try again.');
         setStep('initial');
     }
   };

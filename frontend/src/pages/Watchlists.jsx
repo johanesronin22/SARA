@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Star, Trash2, PlusCircle, TrendingUp, TrendingDown, RefreshCw } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import axios from 'axios';
+import api from '../api';
 
 const fadeInUp = {
   hidden: { opacity: 0, y: 30 },
@@ -25,7 +25,7 @@ const Watchlists = () => {
     if (!symbols || symbols.length === 0) { setLoading(false); return; }
     setLoading(true);
     try {
-      const res = await axios.get(`/api/quotes?symbols=${symbols.join(',')}`);
+      const res = await api.get(`/api/quotes?symbols=${symbols.join(',')}`);
       const map = {};
       res.data.forEach(s => { map[s.symbol] = s; });
       setStockData(map);

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { TrendingUp, Activity, BookOpen, ShieldAlert, ArrowRight, MessageCircle, ChevronDown, ChevronUp, Newspaper } from 'lucide-react';
-import axios from 'axios';
+import api from '../api';
 import { motion } from 'framer-motion';
 import { AreaChart, Area, XAxis, YAxis, Tooltip, CartesianGrid, ResponsiveContainer } from 'recharts';
 
@@ -76,7 +76,7 @@ const Home = () => {
     const savedUser = localStorage.getItem('sara_user');
     if (savedUser) {
         setUser(JSON.parse(savedUser));
-        axios.get('/api/news/market')
+        api.get('/api/news/market')
           .then(res => setNews(res.data))
           .catch(e => console.error(e))
           .finally(() => setNewsLoading(false));
@@ -95,7 +95,7 @@ const Home = () => {
   useEffect(() => {
     // 18 safe thick-volume US equities to avoid fetch drop-offs
     const topSymbols = 'AAPL,MSFT,NVDA,AMZN,META,GOOGL,TSLA,WMT,JPM,V,MA,PG,HD,UNH,XOM,JNJ,ABBV,COST';
-    axios.get(`/api/quotes?symbols=${topSymbols}`)
+    api.get(`/api/quotes?symbols=${topSymbols}`)
       .then(res => {
         const data = res.data;
         const formatted = data.map(q => ({
@@ -125,8 +125,8 @@ const Home = () => {
     setPeekLoading(true);
     setPeekHistory([]);
     Promise.all([
-      axios.get(`/api/history/${peekSym}`),
-      axios.get(`/api/quotes?symbols=${peekSym}`)
+      api.get(`/api/history/${peekSym}`),
+      api.get(`/api/quotes?symbols=${peekSym}`)
     ])
       .then(([histRes, quoteRes]) => {
         if (Array.isArray(histRes.data)) {
