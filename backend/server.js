@@ -245,3 +245,5 @@ const PORT = 3001;
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`SARA Backend running on http://localhost:${PORT}`);
 });
+
+export default app;
