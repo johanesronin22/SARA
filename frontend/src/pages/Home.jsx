@@ -187,7 +187,7 @@ const Home = () => {
             initial="hidden" animate="visible" variants={fadeInUp}
           >
             <div style={{ padding: '1rem', borderRadius: 'var(--radius-full)', background: 'rgba(0, 240, 255, 0.1)', marginBottom: '2rem', boxShadow: '0 0 30px var(--color-accent-neon-glow)' }}>
-              <Activity size={48} className="neon-text" />
+              <img src="/logo.png" alt="SARA Logo" style={{ width: '48px', height: '48px', objectFit: 'contain' }} />
             </div>
             <h1 style={{ fontSize: '4rem', fontWeight: 800, marginBottom: '1.5rem', background: 'linear-gradient(135deg, #FFFFFF 0%, rgba(255,255,255,0.7) 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
               Master the Market with <span className="neon-text" style={{ WebkitTextFillColor: 'var(--color-accent-neon)' }}>SARA</span>

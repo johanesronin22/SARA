@@ -71,7 +71,7 @@ const Header = () => {
     }}>
       <div className="container flex-between" style={{ width: '100%' }}>
         <Link to="/" className="flex-center" style={{ gap: '0.5rem' }}>
-          <Activity size={28} className="neon-text" />
+          <img src="/logo.png" alt="SARA Logo" style={{ width: '28px', height: '28px', objectFit: 'contain' }} />
           <span style={{ fontSize: '1.5rem', fontWeight: 700, letterSpacing: '2px' }}>
             SARA
           </span>
