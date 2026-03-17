@@ -10,6 +10,11 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+// --- ROOT ROUTE (Health Check) ---
+app.get('/', (req, res) => {
+  res.json({ message: 'SARA Backend is running successfully.', status: 'OK' });
+});
+
 // --- REAL SNAPSHOT DATA (FOR WHEN API IS BLOCKED) ---
 // This data is legitimate historical data used as a fallback to ensure the site works.
 const SNAPSHOTS = {
@@ -48,6 +53,21 @@ const getHistoricalSnapshot = (symbol) => {
     };
   });
 };
+
+// ─── AUTHENTICATION (Mock integration for frontend) ─────────────────────────
+app.post('/api/auth/signup', (req, res) => {
+  const { name, email, password } = req.body;
+  if (!email || !password) return res.status(400).json({ success: false, error: 'Email and password required' });
+  // In a real app, hash password and save to DB
+  res.json({ success: true, user: { name: name || 'User', email } });
+});
+
+app.post('/api/auth/login', (req, res) => {
+  const { email, password } = req.body;
+  if (!email || !password) return res.status(400).json({ success: false, error: 'Email and password required' });
+  // In a real app, verify password against DB
+  res.json({ success: true, user: { name: 'Demo User', email } });
+});
 
 // ─── /api/quotes ─────────────────────────────────────────────────────────────
 app.get('/api/quotes', async (req, res) => {
