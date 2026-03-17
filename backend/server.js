@@ -66,7 +66,8 @@ app.post('/api/auth/login', (req, res) => {
   const { email, password } = req.body;
   if (!email || !password) return res.status(400).json({ success: false, error: 'Email and password required' });
   // In a real app, verify password against DB
-  res.json({ success: true, user: { name: 'Demo User', email } });
+  const mockName = email.split('@')[0];
+  res.json({ success: true, user: { name: mockName, email } });
 });
 
 // ─── /api/quotes ─────────────────────────────────────────────────────────────
