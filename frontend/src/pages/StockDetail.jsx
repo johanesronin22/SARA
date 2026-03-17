@@ -68,7 +68,7 @@ const StockDetail = () => {
         if (companyRes.data) setCompanyInfo(companyRes.data);
 
         if (historyRes.data && Array.isArray(historyRes.data) && historyRes.data.length > 0) {
-          const formatted = historyRes.data.map(d => ({
+          const formatted = (historyRes.data || []).map(d => ({
             date: new Date(d.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
             price: d.close,
           }));

@@ -27,7 +27,7 @@ const Watchlists = () => {
     try {
       const res = await api.get(`/api/quotes?symbols=${symbols.join(',')}`);
       const map = {};
-      res.data.forEach(s => { map[s.symbol] = s; });
+      (res.data || []).forEach(s => { map[s.symbol] = s; });
       setStockData(map);
     } catch (e) {
       console.error('Watchlist fetch failed:', e);

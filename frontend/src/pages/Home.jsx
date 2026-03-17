@@ -77,7 +77,7 @@ const Home = () => {
     if (savedUser) {
         setUser(JSON.parse(savedUser));
         api.get('/api/news/market')
-          .then(res => setNews(res.data))
+          .then(res => setNews(res.data || []))
           .catch(e => console.error(e))
           .finally(() => setNewsLoading(false));
     } else {
@@ -97,7 +97,7 @@ const Home = () => {
     const topSymbols = 'AAPL,MSFT,NVDA,AMZN,META,GOOGL,TSLA,WMT,JPM,V,MA,PG,HD,UNH,XOM,JNJ,ABBV,COST';
     api.get(`/api/quotes?symbols=${topSymbols}`)
       .then(res => {
-        const data = res.data;
+        const data = res.data || [];
         const formatted = data.map(q => ({
           sym: q.symbol,
           name: q.shortName || q.longName,

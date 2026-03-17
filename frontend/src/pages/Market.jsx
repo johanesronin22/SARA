@@ -14,8 +14,7 @@ const Market = () => {
       try {
         const topSymbols = 'AAPL,MSFT,NVDA,AMZN,META,GOOGL,TSLA,BRK-B,LLY,V,JPM,WMT,MA,PG,TSM,ASML,NVO,NSRGY,TM,SHEL,AZN,BABA,TCEHY,NVS,PDD';
         const response = await api.get(`/api/quotes?symbols=${topSymbols}`);
-        
-        const data = response.data;
+        const data = response.data || [];
 
         const formattedStocks = data.map(stock => ({
           id: stock.symbol,

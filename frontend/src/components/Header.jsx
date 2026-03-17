@@ -38,7 +38,7 @@ const Header = () => {
       setIsSearching(true);
       api.get(`/api/search?q=${searchQuery}`)
         .then(res => {
-            setSearchResults(res.data);
+            setSearchResults(res.data || []);
             setIsSearching(false);
         })
         .catch(() => setIsSearching(false));
